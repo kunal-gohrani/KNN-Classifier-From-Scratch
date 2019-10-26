@@ -26,8 +26,8 @@ class KNeighborsClassifier:
 
         # Computing the distance of each testing data row with all other training data rows
         distance = dict()  # stores x_train_index:distance_from_testing_data
-        index_position = 0 # Index of X_train (this is used to get the classification of the testing_data from y_train)
-        classification = np.array([],dtype='int')
+        index_position = 0  # Index of X_train (this is used to get the classification of the testing_data from y_train)
+        classification = np.array([], dtype='int')
 
         for i in testing_data:
             for j in self.X_train:
