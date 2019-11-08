@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+
 from KNeighborsClassifier import KNeighborsClassifier
 
 data = pd.read_csv('Social_Network_Ads.csv')
@@ -39,6 +40,26 @@ def user_input():
             exit(0)
 
 
+def weighted_user_input():
+    k = int(input('Enter K value: '))
+    knn = KNeighborsClassifier(k=k, X_train=X_train, y_train=y_train, weights=True)
+    knn.fit()
+    while True:
+        age = int(input('Enter Age: '))
+        salary = float(input('Enter Salary: '))
+        data = np.array([[age, salary]])
+        data = scaler.transform((data))
+        answer = knn.predict(data)[0]
+        if answer == 0:
+            print('Will not Purchase')
+        else:
+            print('Will Purchase')
+        quit0 = input('Do You want to quit? Enter Y/N: ')
+        if quit0 == str.lower('Y'):
+            print('Thanks for using the program')
+            exit(0)
+
+
 def batch_input():
     k = int(input('Enter K value: '))
     knn = KNeighborsClassifier(k=k, X_train=X_train, y_train=y_train)
@@ -53,8 +74,31 @@ def batch_input():
         print(answer[i])
 
 
-choice = int(input('1. Choose 1 for Single Input\n2. Choose 2 for Batch input\nChoice:'))
+def weighted_batch_input():
+    k = int(input('Enter K value: '))
+    knn = KNeighborsClassifier(k=k, X_train=X_train, y_train=y_train, weights=True)
+    knn.fit()
+    print('In this method, we will use X_test as a batch input.')
+    answer = knn.predict(X_test).tolist()
+    for i in range(0, len(answer)):
+        if answer[i] == 0:
+            answer[i] = 'Will not Purchase'
+        elif answer[i] == 1:
+            answer[i] = 'Will purchase'
+        print(answer[i])
+    # print(len(answer))
+    # print(len(X_test))
+
+
+choice = int(
+    input(
+        '1. Choose 1 for Single Input\n2. Choose 2 for Batch input\n3. Choose 3 to use weighted knn on single input.' + \
+        '\n4. Choose 4 to use weighted knn on batch input\nChoice:'))
 if choice == 1:
     user_input()
 if choice == 2:
     batch_input()
+if choice == 3:
+    weighted_user_input()
+if choice == 4:
+    weighted_batch_input()
